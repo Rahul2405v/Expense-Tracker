@@ -7,7 +7,7 @@ import MonthlyTrends from '../components/MonthlyTrends';
 import { Calendar, TrendingUp, PieChart, BarChart3 } from 'lucide-react';
 
 const Analytics = () => {
-  const { transactions, income, expense, balance } = useTransaction();
+  const { transactions } = useTransaction();
   const [selectedPeriod, setSelectedPeriod] = useState('month');
 
   const formatCurrency = (amount) => {

@@ -10,7 +10,7 @@ const AddTransactionModal = ({ onClose, editTransaction = null }) => {
     amount: editTransaction?.amount ? Math.abs(editTransaction.amount).toString() : '',
     category: editTransaction?.category || '',
     date: editTransaction?.date || new Date().toISOString().split('T')[0],
-    type: editTransaction?.type || (editTransaction?.amount > 0 ? 'income' : 'expense') || 'expense'
+    type: editTransaction ? (editTransaction.amount > 0 ? 'income' : 'expense') : 'expense'
   });
 
   const categories = {
