@@ -1,10 +1,30 @@
 import React from 'react';
+import { useTransaction } from '../context/TransactionContext';
+import { Wallet } from 'lucide-react';
 
-export const Balance = ({ balance }) => {
+const Balance = () => {
+  const { balance } = useTransaction();
+
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    }).format(amount);
+  };
+
   return (
-    <div>
-      <h4>Your Balance</h4>
-      <h1>${balance}</h1>
+    <div className="balance-card">
+      <div className="card-header">
+        <Wallet className="card-icon" />
+        <h3>Total Balance</h3>
+      </div>
+      <div className="balance-amount">
+        <span className={`amount ${balance >= 0 ? 'positive' : 'negative'}`}>
+          {formatCurrency(balance)}
+        </span>
+      </div>
     </div>
   );
 };
+
+export default Balance;

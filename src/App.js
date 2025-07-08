@@ -1,35 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import { Balance } from './components/Balance';
-import { IncomeExpenses } from './components/IncomeExpenses';
-import { TransactionList } from './components/TransactionList';
-import { AddTransaction } from './components/AddTransaction';
+import Navbar from './components/Navbar';
+import Dashboard from './pages/Dashboard';
+import Transactions from './pages/Transactions';
+import Analytics from './pages/Analytics';
+import Settings from './pages/Settings';
+import { TransactionProvider } from './context/TransactionContext';
 
 function App() {
-  const [transactions, setTransactions] = useState([
-    { id: 1, text: 'Cash', amount: 500 },
-    
-  ]);
-
-  const addTransaction = (transaction) => {
-    setTransactions([...transactions, transaction]);
-  };
-
-  const amounts = transactions.map(transaction => transaction.amount);
-  const balance = amounts.reduce((acc, item) => (acc += item), 0).toFixed(2);
-  const income = amounts.filter(item => item > 0).reduce((acc, item) => (acc += item), 0).toFixed(2);
-  const expense = (amounts.filter(item => item < 0).reduce((acc, item) => (acc += item), 0) * -1).toFixed(2);
-
   return (
-    <div>
-      <h2>Expense Tracker</h2>
-      <div className="container">
-        <Balance balance={balance} />
-        <IncomeExpenses income={income} expense={expense} />
-        <TransactionList transactions={transactions} />
-        <AddTransaction addTransaction={addTransaction} />
-      </div>
-    </div>
+    <TransactionProvider>
+      <Router>
+        <div className="app">
+          <Navbar />
+          <main className="main-content">
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/transactions" element={<Transactions />} />
+              <Route path="/analytics" element={<Analytics />} />
+              <Route path="/settings" element={<Settings />} />
+            </Routes>
+          </main>
+        </div>
+      </Router>
+    </TransactionProvider>
   );
 }
 
